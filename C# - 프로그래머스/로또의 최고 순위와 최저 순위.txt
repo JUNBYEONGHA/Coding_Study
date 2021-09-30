@@ -1,0 +1,25 @@
+using System;
+
+
+public class Solution {
+    public int[] solution(int[] lottos, int[] win_nums) {
+        int[] answer = new int[2];
+        int count = 7 , zero_num = 0;
+        for(int i = 0 ; i < lottos.Length ; i++)
+        {
+            if(lottos[i] == 0)
+                zero_num++;
+            else
+                for(int j = 0 ; j < win_nums.Length ; j++)
+                {
+                    if(lottos[i] == win_nums[j])
+                        count--;
+                }
+        }
+        answer[0] = (count-zero_num);
+        answer[1] = count;
+        if(answer[1] == 7) answer[1]--;
+        if(answer[0] == 7) answer[0]--;
+        return answer;
+    }
+}
