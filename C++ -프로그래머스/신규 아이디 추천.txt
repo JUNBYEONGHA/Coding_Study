@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string new_id) {
+    string answer = "" , Aanswer = "";
+    char check = 'a' , id ,add;
+    for(int i = 0 ; i < new_id.length() ; i++)
+    {
+        id = new_id[i];
+        if((id >= 'a' && id <= 'z') || (id >= '0' 
+           && id <= '9') || id == '-' || id == '_' || id == '.')
+        {
+            Aanswer += id;
+        }
+        else if(id >= 'A' && id <= 'Z')
+        {
+            Aanswer += id + 32;
+        }
+    }
+    for(int i = 0 ; i < Aanswer.length() ; i++)
+    {
+        id = Aanswer[i];
+        if(id == '.')
+        {
+            if(check != '.')
+            {
+                answer += id;
+            }
+        }
+        else
+            answer += id;
+        check = id;
+    }
+    while(answer[0] == '.')
+        answer.erase(0,1);
+    while(answer[answer.length()-1] == '.')
+        answer.pop_back();
+    if(answer.length() == 0)
+        answer = 'a';
+    add = answer[answer.length()-1];
+    while(answer.length() > 15)
+        answer.pop_back();
+    while(answer.length() < 3)
+        answer.push_back(add);
+    if(answer[answer.length()-1] == '.')
+        answer.pop_back();
+    return answer;
+}
