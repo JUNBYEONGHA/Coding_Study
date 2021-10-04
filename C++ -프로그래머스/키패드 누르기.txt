@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(vector<int> numbers, string hand) {
+    string answer = "";
+    
+    int left = 4 , right = 4 , next;
+    int idistance = 0 , rdistance = 0;
+    bool Lmiddlecheck = false , Rmiddlecheck = false;
+    bool handcheck = false;
+    if( hand.compare("right") == 0 ) handcheck = true;
+    
+    for(int i = 0 ; i < numbers.size() ; i++)
+    {
+        switch(numbers[i])
+        {
+            case 1 : case 2 : case 3 :
+                next = 1;
+                break;
+            case 4 : case 5 : case 6 :
+                next = 2;
+                break;
+            case 7 : case 8 : case 9 :
+                next = 3;
+                break;
+            default:
+                next = 4;
+                break;
+        }
+        switch(numbers[i])
+        {
+            case 1 : case 4 : case 7 :
+                answer += 'L';
+                left = next;
+                Lmiddlecheck = false;
+                break;
+            case 3 : case 6 : case 9 :
+                answer += 'R';
+                right = next;
+                Rmiddlecheck = false;
+                break;
+            default:
+                int a = abs(next-left);
+                if(!Lmiddlecheck) a++;
+                int b = abs(next-right);
+                if(!Rmiddlecheck) b++;
+                if(!handcheck)
+                    if(a<=b)
+                    {
+                        answer += 'L';
+                        left = next;
+                        Lmiddlecheck = true;
+                    }
+                    else
+                    {
+                        answer += 'R';
+                        right = next;
+                        Rmiddlecheck = true;
+                    }
+                else
+                    if(b<=a)
+                    {
+                        answer += 'R';
+                        right = next;
+                        Rmiddlecheck = true;
+                    }
+                    else
+                    {
+                        answer += 'L';
+                        left = next;
+                        Lmiddlecheck = true;
+                    }
+                break;
+        }
+    }
+    return answer;
+}
