@@ -1,0 +1,57 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(int N, vector<int> stages) {
+    vector<int> answer;
+    vector<float> check;
+    int index = 0 , count = 0 , size = stages.size();
+    sort(stages.begin() , stages.end());
+    for(int i = 1; i <= N ; i++)
+    {
+        answer.push_back(i);
+        if(index < stages.size())
+            if(stages[index] == i)
+            {
+                
+                while(stages[index] == i)
+                {
+                    count++;
+                    if(index < stages.size())
+                        index++;
+                    else
+                        break;
+                }
+                check.push_back((float)count / size);
+                size -= count;
+                count = 0;
+            }
+            else 
+                check.push_back(0);
+        else
+            check.push_back(0);
+    }
+    for(int i = 0 ; i < check.size() - 1; i++)
+    {
+        for(int j = i + 1 ; j < check.size() ; j++)
+        {
+            if(check[i] < check[j])
+            {
+                for(int k = j ; k > i ; k--)
+                {
+                    float temp = check[k];
+                    check[k] = check[k-1];
+                    check[k-1] = temp;
+                    int itemp = answer[k];
+                    answer[k] = answer[k-1];
+                    answer[k-1] = itemp;
+                }
+            }
+        }
+    }
+    
+    return answer;
+}
