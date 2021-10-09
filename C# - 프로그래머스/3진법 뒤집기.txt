@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+
+public class Solution {
+    public int solution(int n) {
+        int answer = 0 , X = 1;
+        List<int> arr = new List<int>();
+        while(X <= n)
+            X *= 3;
+        X /= 3;
+        
+        while(X != 0)
+        {
+            if(n / X > 0)
+            {
+                arr.Add(n/X);
+                n -= (X * (n/X));
+                X /= 3;
+            }
+            else
+            {
+                arr.Add(0);
+                X /= 3;
+            }
+        }
+        X = 1;
+        for(int i = 0 ; i < arr.Count ; i++)
+        {
+            answer += X * arr[i];
+            X *= 3;
+        }
+        return answer;
+    }
+}
