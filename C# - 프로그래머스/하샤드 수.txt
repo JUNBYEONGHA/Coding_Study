@@ -1,0 +1,13 @@
+public class Solution {
+    public bool solution(int x) {
+        bool answer = true;
+        int sum = 0 , index = x;
+        while(index > 0)
+        {
+            sum += index%10;
+            index /= 10;
+        }
+        if(x % sum != 0) answer = false;
+        return answer;
+    }
+}
