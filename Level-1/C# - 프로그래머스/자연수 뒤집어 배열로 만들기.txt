@@ -1,0 +1,12 @@
+public class Solution {
+    public int[] solution(long n) {
+        char[] a = n.ToString().ToCharArray();
+        int[] answer = new int[a.Length];
+        System.Array.Reverse(a);
+        for(int i = 0 ; i < a.Length; i++)
+        {
+            answer[i] = (a[i]-48);
+        }
+        return answer;
+    }
+}
