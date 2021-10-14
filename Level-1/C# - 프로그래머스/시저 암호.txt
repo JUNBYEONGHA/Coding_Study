@@ -1,0 +1,30 @@
+public class Solution {
+    public string solution(string s, int n) {
+        string answer = "";
+        int temp = 0;
+        for(int i = 0 ; i < s.Length ; i++)
+        {
+            temp = s[i];
+            if(temp >= 65 && temp <= 90)
+            {
+                temp = temp+n;
+                if(temp > 90)
+                    temp -= 26;
+                answer += (char)temp;
+            }
+            else if(temp >= 97 && temp <= 122)
+            {
+                 temp = temp+n;
+                 if(temp > 122)
+                    temp -= 26;
+                answer += (char)temp;
+            }
+            else
+            {
+                answer += (char)temp;
+            }
+                
+        }
+        return answer;
+    }
+}

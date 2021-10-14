@@ -1,0 +1,31 @@
+public class Solution {
+    public string solution(string s) {
+        string answer = "" ;
+        int index = 0;
+        for(int i = 0 ; i < s.Length ; i++)
+        {
+            if(s[i] >= 97 && s[i] <= 122)
+            {
+                if(index % 2 == 0)
+                    answer += (char)(s[i]-32);
+                else
+                    answer += s[i];
+                index ++;
+            }
+            else if (s[i] >= 65 && s[i] <= 90)
+            {
+                if(index % 2 == 0)
+                    answer += s[i];
+                else
+                    answer += (char)(s[i]+32);
+                index ++;
+            }
+            else
+            {
+                answer += s[i];
+                index = 0;
+            }
+        }
+        return answer;
+    }
+}
