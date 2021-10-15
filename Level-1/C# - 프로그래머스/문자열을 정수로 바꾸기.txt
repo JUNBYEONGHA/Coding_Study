@@ -1,0 +1,6 @@
+public class Solution {
+    public int solution(string s) {
+        int answer = System.Int32.Parse(s);
+        return answer;
+    }
+}
