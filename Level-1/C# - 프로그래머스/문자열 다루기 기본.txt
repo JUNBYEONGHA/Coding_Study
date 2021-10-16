@@ -1,0 +1,15 @@
+public class Solution {
+    public bool solution(string s) {
+        bool answer = true;
+        if(!(s.Length == 4 || s.Length == 6)) answer = false;
+        foreach (var item in s)
+        {
+            if(!(item >= '0' && item <= '9'))
+            {   
+                answer = false;
+                break;
+            }
+        }
+        return answer;
+    }
+}
