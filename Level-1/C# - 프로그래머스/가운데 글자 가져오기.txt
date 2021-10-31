@@ -1,0 +1,10 @@
+public class Solution {
+    public string solution(string s) {
+        string answer = "";
+        if(s.Length % 2 == 1)
+            answer += s[(s.Length-1)/2];
+        else
+            answer = answer + s[(s.Length-1)/2] + s[(s.Length-1)/2 + 1];
+        return answer;
+    }
+}
