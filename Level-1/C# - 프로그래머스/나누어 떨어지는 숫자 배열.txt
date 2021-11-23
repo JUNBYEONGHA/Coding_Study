@@ -1,0 +1,13 @@
+using System.Linq;
+
+public class Solution {
+    public int[] solution(int[] arr, int divisor) {
+        int[] answer = (from _answer in arr
+            where (_answer % divisor) == 0
+            orderby _answer
+            select _answer).ToArray();
+        if(answer.Length == 0)
+            answer = new int[] {-1};
+        return answer;
+    }
+}
