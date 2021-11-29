@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <sstream>
+#include <iostream>
+
+using namespace std;
+vector<string> split(string input)
+{
+    vector<string> answer;
+    stringstream ss(input);
+    string temp;
+    while(getline(ss, temp , ' '))
+    {
+        answer.push_back(temp);
+    }
+    return answer;
+}
+
+vector<string> solution(vector<string> record) {
+    vector<string> answer;
+    map<string,string> m;
+    for(vector<string>::iterator iter = record.begin();
+       iter != record.end(); iter++ )
+    {
+        vector<string> command = split(*iter);
+        if(command[0].compare("Enter") == 0)
+        {
+            m[command[1]] = command[2];
+        }
+        else if(command[0].compare("Change") == 0)
+        {
+            m[command[1]] = command[2];
+        }
+    }
+    for(vector<string>::iterator iter = record.begin();
+       iter != record.end(); iter++ )
+    {
+        vector<string> command = split(*iter);
+        string temp = m[command[1]];
+        if(command[0].compare("Enter") == 0)
+        {
+            answer.push_back(temp + "님이 들어왔습니다.");
+        }
+        else if(command[0].compare("Leave") == 0)
+        {
+            answer.push_back(temp + "님이 나갔습니다.");
+        }
+    }
+    return answer;
+}

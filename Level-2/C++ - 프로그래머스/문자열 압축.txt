@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int solution(string s) {
+    int answer = 0 , index = 0 , length = s.size();
+    string temps[s.size()/2 + 1];
+    s.resize(s.size()+s.size()/2+1,' ');
+    for(int i = 1 ; i <= length/2 ; i++)
+    {
+        string temp = "";
+        answer = 0;
+        for(int j = 0 ; j < length ; j += i)
+        {
+            
+            if(!(s.substr(j,i).compare(s.substr(j+i,i))==0))
+            {
+                if(answer > 0)
+                {
+                    temp += to_string(answer+1) + s.substr(j,i);
+                    answer = 0;
+                }
+                else
+                {
+                    temp += s.substr(j,i);
+                }
+            }
+            else
+                answer += 1;
+        }
+        temp.erase(remove(temp.begin(),temp.end(),' '),temp.end());
+        temps[index] = temp;
+        index++;
+    }
+    answer = length;
+    for(int i = 0 ; i < length/2  ; i++)
+    {
+        if(answer > temps[i].size() && !(temps[i].size() == 0))
+        {
+            answer = temps[i].size();
+        }
+    }
+    return answer;
+}
