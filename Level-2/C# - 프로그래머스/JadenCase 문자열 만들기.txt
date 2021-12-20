@@ -1,0 +1,28 @@
+public class Solution {
+    public string solution(string s) {
+        string answer = "";
+        var ss = s.Split(" ");
+        char a;
+        foreach(var show in ss)
+        {
+            if(!(answer == ""))
+                answer += " ";
+            for(int i = 0 ; i < show.Length ; i++)
+            {
+                a = show[i];
+                if(i == 0)
+                {
+                    if(a >= 97 && a <= 122)
+                        a = (char)(a - 32);
+                }
+                else
+                {
+                    if(a >= 65 && a <= 90)
+                        a = (char)(a + 32);
+                }   
+                answer += a;
+            }
+        }
+        return answer;
+    }
+}
