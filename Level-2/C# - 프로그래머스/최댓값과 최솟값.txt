@@ -1,0 +1,17 @@
+using System;
+
+public class Solution {
+    public string solution(string s) {
+        string answer = "";
+        string[] temp = s.Split(' ');
+        int min = 100000000, max = -100000000 , t = 0;
+        foreach(var A in temp)
+        {
+            t = Int32.Parse(A);
+            max = t >= max ? t : max;
+            min = min > t ? t : min;
+        }
+        answer = min.ToString()+ " " +max.ToString();
+        return answer;
+    }
+}
