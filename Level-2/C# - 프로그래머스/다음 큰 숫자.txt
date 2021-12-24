@@ -1,0 +1,27 @@
+using System;
+
+class Solution 
+{
+    public int solution(int n) 
+   {
+        int answer = 0 , count = 0 , index = n+1;
+        count = counting(n);
+        while(true)
+        {
+            if(count == counting(index)) break;
+            index++;
+        }
+        answer = index;
+        return answer;
+    }
+    int counting(int n)
+    {
+        int count = 0;
+        while(n > 0)
+        {
+            if((n % 2) == 1) count++;
+            n /= 2;
+        }
+        return count;
+    }
+}
