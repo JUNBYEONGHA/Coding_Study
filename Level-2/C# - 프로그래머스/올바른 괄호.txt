@@ -1,0 +1,26 @@
+using System;
+
+public class Solution {
+    public bool solution(string s) {
+        bool answer = true;
+        int temp = 0;
+        foreach(char a in s)
+        {
+            if(a == '(')
+            {
+                temp ++;
+            }
+            else
+            {
+                temp --;  
+            }
+            if(temp < 0) 
+            {
+                answer = false;
+                break;
+            }
+        }
+        if(temp != 0) answer = false;
+        return answer;
+    }
+}
