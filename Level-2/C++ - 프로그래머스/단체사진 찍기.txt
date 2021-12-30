@@ -1,0 +1,63 @@
+#include <string>
+#include <cstdlib>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+string friends[] = {"A","C","F","J","M","N","R","T"};
+int answer;
+
+bool check(string name , vector<string> data)
+{
+    for(int i = 0 ; i < data.size() ; i++ )
+    {
+        int pos1 = name.find(data[i][0]) ;
+        int pos2 = name.find(data[i][2]) ;
+        char op = data[i][3];
+        int index = data[i][4] - '0';
+        if(op == '='){
+            if (!(abs(pos1-pos2) == index+1)) return false;
+        }
+        else if(op == '>'){
+            if (!(abs(pos1-pos2) > index+1)) return false;
+        }
+        else if(op == '<'){
+            if (!(abs(pos1-pos2) < index+1)) return false;
+        }
+    }
+    return true;
+}
+
+void DFS(string name , bool checkbool[] , vector<string> data)
+{
+    if(name.size() == 7)
+    {
+        if(check(name,data))
+        {
+            answer++;
+        }
+        return;
+    }
+    for(int i = 0 ; i < 8 ; i++)
+    {
+        if(!checkbool[i])
+        {
+            checkbool[i] = true;
+            string temp = name + friends[i];
+            DFS(temp,checkbool,data);
+            checkbool[i] = false;
+        }
+    }
+}
+
+// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
+int solution(int n, vector<string> data) {
+    answer = 0;
+    bool checkbool[8];
+    for(int i = 0 ; i < 8 ; i++)
+    {
+        checkbool[i] = false;
+    }
+    DFS("",checkbool,data);
+    return answer;
+}
