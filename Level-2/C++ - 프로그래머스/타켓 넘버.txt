@@ -1,0 +1,27 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int answer, Target;
+
+void DFS(int total,int index, vector<int> numbers)
+{
+    if (index == numbers.size())
+	{
+		if (total == Target)
+		{
+			answer++;
+		}
+		return;
+	}
+	DFS(total - (numbers[index]),index + 1, numbers);
+	DFS(total + (numbers[index]),index + 1, numbers);
+}
+int solution(vector<int> numbers, int target) {
+	answer = 0;
+	Target = target;
+	DFS(0,0,numbers);
+	return answer;
+}
