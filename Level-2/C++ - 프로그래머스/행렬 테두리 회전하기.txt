@@ -1,0 +1,66 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int map[101][101];
+vector<int> solution(int rows, int columns, vector<vector<int>> queries) {
+    vector<int> answer;
+    int total = 1 , min_num = 10000;
+    for(int i = 1 ; i <= rows ; i++ )
+    {
+        for(int j = 1 ; j <= columns ; j++ )
+        {
+            map[i][j] = total;
+            total++;
+        }
+    }
+    for(int i = 0 ; i < queries.size(); i++ )
+    {
+        int temp = 0 , temp2;
+        for(int j = queries[i][1] ; j <=  queries[i][3] ; j++)
+        {
+            temp2 = map[queries[i][0]][j];
+            if(min_num > temp2) min_num = temp2;
+            if(temp > 0)
+            {
+                map[queries[i][0]][j] = temp;
+            }
+            temp = temp2;
+        }
+        for(int j = queries[i][0]+1 ; j <=  queries[i][2] ; j++)
+        {
+            temp2 = map[j][queries[i][3]];
+            if(min_num > temp2) min_num = temp2;
+            if(temp > 0)
+            {
+                map[j][queries[i][3]] = temp;
+            }
+            temp = temp2;
+        }
+        for(int j = queries[i][3]-1 ; j >=  queries[i][1] ; j--)
+        {
+            temp2 = map[queries[i][2]][j];
+            if(min_num > temp2) min_num = temp2;
+            if(temp > 0)
+            {
+                map[queries[i][2]][j] = temp;
+            }
+            temp = temp2;
+        }
+        for(int j = queries[i][2]-1 ; j >=  queries[i][0] ; j--)
+        {
+            temp2 = map[j][queries[i][1]];
+            if(min_num > temp2) min_num = temp2;
+            if(temp > 0)
+            {
+                map[j][queries[i][1]] = temp;
+            }
+            temp = temp2;
+        }
+        answer.push_back(min_num);
+        min_num = 10000;
+    }     
+    return answer;
+}
