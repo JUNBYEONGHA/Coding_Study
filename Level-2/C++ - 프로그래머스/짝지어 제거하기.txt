@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int solution(string s)
+{
+    int index = 0;
+    char temp = ' ';
+    vector<char> v = {' '};
+    for(int i = 0 ; i < s.size() ; i++ )
+    {
+        v.push_back(s[i]);
+        if(v.back() == temp)
+        {
+            v.pop_back();
+            v.pop_back();
+            temp = v.back();
+        }
+        else
+        {
+            temp = v.back();
+        }
+    }
+    if(v.size() == 1) return 1;
+    return 0;
+}
