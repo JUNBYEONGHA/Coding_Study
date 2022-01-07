@@ -1,0 +1,70 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int N,M;
+vector<string>map;
+bool Visit[510][510][4];
+
+int dx[] = {0,0,1,-1};
+int dy[] = {1,-1,0,0};
+
+int change(char c , int dir)
+{
+    if( c == 'L')
+    {
+        if(dir == 0) return 3;
+        if(dir == 1) return 2;
+        if(dir == 2) return 0;
+        if(dir == 3) return 1;
+    }
+    
+    if(dir == 0) return 2;
+    if(dir == 1) return 3;
+    if(dir == 2) return 1;
+    if(dir == 3) return 0;
+}
+
+int DFS(int x, int y , int dir , int len)
+{
+    if(Visit[x][y][dir] == true) return len;
+    
+    Visit[x][y][dir] = true;
+    
+    int nx = x;
+    int ny = y;
+    int nd = dir;
+    
+    if(map[x][y] != 'S') nd = change(map[x][y],dir);
+    nx = x + dx[nd];
+    ny = y + dy[nd];
+    if (nx < 0) nx = N -1;
+    if (ny < 0) ny = M -1;
+    if (nx == N) nx = 0;
+    if (ny == M) ny = 0;
+    
+    return DFS(nx,ny,nd,len + 1);
+}
+vector<int> solution(vector<string> grid) {
+    vector<int> answer;
+    N = grid.size();
+    M = grid[0].size();
+    map = grid;
+    
+    for(int i = 0 ; i < N ; i++)
+    {
+        for(int j = 0 ; j < M ; j++)
+        {
+            for(int k = 0 ; k < 4 ; k++)
+            {
+                int result = DFS(i,j,k,0);
+                if(result != 0) answer.push_back(result);
+            }
+        }
+    }
+    sort(answer.begin(),answer.end());
+    return answer;
+}
