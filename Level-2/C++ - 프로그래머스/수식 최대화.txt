@@ -1,0 +1,66 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+long long calculate(long long a , long long b , char c )
+{
+    if(c == '+')
+        return a + b;
+    else if (c == '-')
+        return a - b;
+    else
+        return a * b;
+}
+
+long long solution(string expression) {
+    long long answer = 0;
+    
+    vector<long long> operand;
+    vector<char> oper;
+    string temp = "";
+    for(char c : expression)
+    {
+        if(c >= '0' && c <= '9' )
+        {
+            temp += c;
+        }
+        else
+        {
+            operand.push_back(stoll(temp));
+            oper.push_back(c);
+            temp = "";
+        }
+    }
+    operand.push_back(stoll(temp));
+    
+    char oper_combi[6][3] = {{'+','*','-'},{'+','-','*'},{'*','+','-'},
+                        {'*','-','+'},{'-','*','+'},{'-','+','*'}};
+    for(int i = 0 ; i < 6 ; i++ )
+    {
+        vector<long long> temp_operand = operand;
+        vector<char> temp_oper = oper;
+        for(int j = 0 ; j < 3 ; j++ )
+        {
+            for(int k = 0 ; k < temp_oper.size();)
+            {
+                if(temp_oper[k] == oper_combi[i][j] )
+                {
+                    long long result = calculate(temp_operand[k],temp_operand[k+1],temp_oper[k]);
+                    
+                    temp_operand.erase(temp_operand.begin() + k);
+                    temp_operand.erase(temp_operand.begin() + k);
+                    temp_operand.insert(temp_operand.begin() + k , result);
+                    
+                    temp_oper.erase(temp_oper.begin() + k);
+                }
+                else
+                {
+                    k++;
+                }
+            }
+        }
+        answer = max(answer , abs(temp_operand[0]));
+    }
+    return answer;
+}
