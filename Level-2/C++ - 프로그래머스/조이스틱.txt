@@ -1,0 +1,62 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+vector<int> count;
+int answer , MAX;
+
+int DOWN(char c)
+{
+    int count = 1;
+    char temp = 'Z';
+    while(temp != c)
+    {
+        temp--;
+        count++;
+    }
+    return count;
+}
+int UP(char c)
+{
+    int count = 0;
+    char temp = 'A';
+    while(temp != c)
+    {
+        temp++;
+        count++;
+    }
+    return count;
+}
+int solution(string name) {
+    int answer = 0 , index = 0 ;
+    string temp (name.size() , 'A');
+    MAX = name.size();
+    while(true)
+    {
+        temp[index] = name[index];
+        answer += min(UP(name[index]),DOWN(name[index]));
+        
+        if(temp == name)
+            break;
+        
+        for(int move = 1 ; move < name.size(); move++)
+        {
+            if(name[(index + move) % name.size()] != temp[(index + move) % name.size()])
+            {
+                index = (index + move) % name.size();
+                answer += move;
+                break;
+            }
+            else if(name[(index + name.size() - move) % name.size()] 
+                    != temp[(index + name.size() - move) % name.size()])
+            {
+                index = (index + name.size() - move) % name.size();
+                answer += move;
+                break;
+            }
+        }
+    }
+    return answer;
+}
