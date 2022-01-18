@@ -1,0 +1,67 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+int length;
+vector<string> combi_string;
+string NUMBERS;
+bool check[8];
+
+bool isPrime(int n) 
+{ 
+    if (n < 2) 
+        return false;
+    int length = sqrt(n);
+    for (int i = 2; i <= length; i++) 
+        if (n % i == 0) 
+            return false; 
+    return true; 
+}
+void combi(string temp,int depth)
+{
+    
+    if(depth == length)
+    {
+        combi_string.push_back(temp);
+        return;
+    }
+    for(int i = 0; i < length; i++)
+    {
+        if(!check[i])
+        {
+            check[i] = true;
+            combi(temp + NUMBERS[i],depth+1);
+            check[i] = false;
+        }
+    }
+}
+
+int solution(string numbers) {
+    int answer = 0;
+    NUMBERS = numbers;
+    vector<int> combi_int;
+    length = numbers.size();
+    combi("",0);
+    for(string a : combi_string)
+    {
+        string temp = "";
+        for(int i = 0 ; i < a.size(); i++)
+        {
+            temp += a[i];
+            combi_int.push_back(stoi(temp));
+        }
+    }
+    sort(combi_int.begin() , combi_int.end());
+    combi_int.erase(unique(combi_int.begin(),
+                          combi_int.end())
+                        ,combi_int.end());
+    for(int a : combi_int)
+    {
+        if(isPrime(a))
+            answer++;
+    }
+    return answer;
+}
