@@ -1,0 +1,58 @@
+#include<vector>
+#include<queue>
+
+using namespace std;
+
+#define MAX 101
+
+bool visit [MAX][MAX];
+int DP[MAX][MAX];
+vector<vector<int> > MAP;
+int dx[] = {1,-1,0,0};
+int dy[] = {0,0,1,-1};
+int N , M;
+
+void BFS(int x , int y)
+{
+    queue<pair<pair<int,int>,int>> q;
+    DP[x][y] = 1;
+    int c = 1;
+    q.push(make_pair(make_pair(x,y),c));
+    visit[x][y] = true;
+    
+    while(!q.empty())
+    {
+        x = q.front().first.first;
+        y = q.front().first.second;
+        c = q.front().second;
+            
+        q.pop();
+            
+        for(int i = 0 ; i < 4 ; i++)
+        {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            int nc = c + 1;
+            
+            if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+            if(MAP[nx][ny] > 0 && !visit[nx][ny])
+            {
+                q.push(make_pair(make_pair(nx,ny),nc));
+                visit[nx][ny] = true;
+                DP[nx][ny] = nc;
+            }
+        }
+    }
+    
+}
+
+int solution(vector<vector<int> > maps)
+{
+    MAP = maps;
+    N = maps.size();
+    M = maps[0].size();
+    BFS(0,0);
+    int answer = DP[N-1][M-1];
+    if(answer == 0) answer = -1;
+    return answer;
+}
