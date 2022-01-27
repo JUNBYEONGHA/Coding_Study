@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(string s) {
+    vector<int> answer;
+    answer.push_back(0);
+    answer.push_back(0);
+    while(s.compare("1")!=0)
+    {
+        string temp = s;
+        temp.erase(remove(temp.begin(),temp.end(),'0'),temp.end());
+        answer[1] += s.size() - temp.size();
+        answer[0] ++;
+        s = "";
+        int index = temp.size();
+        while(index)
+        {
+            if(index % 2 == 1)
+                s += "1";
+            else
+                s += "0";
+            index /= 2;
+        }
+    }
+    return answer;
+}
