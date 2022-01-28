@@ -1,0 +1,65 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int visit[31][31];
+
+void check(int x, int y,const vector<string>& board)
+{
+    char A = board[x][y];
+    if(A == ' ') return;
+    if(A == board[x][y+1] && A == board[x+1][y] && A == board[x+1][y+1])
+    {
+        visit[x][y] = true;
+        visit[x][y+1] = true;
+        visit[x+1][y] = true;
+        visit[x+1][y+1] = true;
+    }
+}
+void down(int x,int y,vector<string>& board)
+{
+    if(x == 0)
+        return;
+    board[x][y] = board[x-1][y];
+    board[x-1][y] = ' ';
+    down(x-1,y,board);
+}
+int turn(int m, int n,vector<string>& board)
+{
+    int answer = 0;
+    while(true)
+    {
+        for(int i = 0 ; i < m - 1 ; i++)
+        {
+            for(int j = 0 ; j < n - 1; j++)
+            {
+                check(i,j,board);
+            }
+        }
+        int temp_answer = 0;
+        for(int i = 0 ; i < m; i++)
+        {
+            for(int j = 0 ; j < n; j++)
+            {
+                if(visit[i][j]) 
+                {
+                    temp_answer++;
+                    visit[i][j] = false;
+                    board[i][j] = ' ';
+                    down(i,j,board);
+                }
+            }
+        }
+        answer += temp_answer;
+        if(temp_answer <= 0)
+            break;
+    }
+    return answer;
+}
+
+int solution(int m, int n, vector<string> board) {
+    int answer = turn(m,n,board);
+    return answer;
+}
