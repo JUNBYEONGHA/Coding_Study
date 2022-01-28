@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+vector<int> solution(int n, vector<string> words) {
+    vector<int> answer(2);
+    int length = words.size();
+    for(int i = 1; i < length; i++)
+    {
+        for(int j = i - 1; j > -1; j--)
+        {
+            if(words[i].compare(words[j]) == 0)
+            {
+                answer[0] = i % n + 1;
+                answer[1] = i / n + 1;
+                return answer;
+            }
+        }
+    }
+    
+    int compareC = words[0][words[0].size()-1];
+    bool check = false;
+    for(int i = 1 ; i < length; i++)
+    {
+        if(words[i][0] != compareC )
+        {
+            answer[0] = i % n + 1;
+            answer[1] = i / n + 1;
+            break;
+        }
+        compareC = words[i][words[i].size()-1];
+    }
+    return answer;
+}
