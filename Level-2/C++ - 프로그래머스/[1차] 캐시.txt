@@ -1,0 +1,42 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(int cacheSize, vector<string> cities) {
+    
+    if(cacheSize == 0)
+        return cities.size() * 5;
+    int answer = 0;
+    vector<string> cache;
+    for(string data : cities)
+    {
+        transform(data.begin(),data.end(),data.begin(), ::tolower);
+        bool check = false;
+        int index = 0;
+        for(string temp : cache)
+        {
+            if(temp.compare(data) == 0)
+            {
+                check = true;
+                break;
+            }
+            index++;
+        }
+        if(check)
+        {
+            cache.erase(cache.begin() + index);
+            answer += 1;
+            cache.push_back(data);
+        }
+        else
+        {
+            if(cache.size() == cacheSize)
+                cache.erase(cache.begin());
+            answer += 5;
+            cache.push_back(data);
+        }
+    }
+    return answer;
+}
