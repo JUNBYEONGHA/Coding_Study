@@ -1,0 +1,58 @@
+#include <string>
+#include <vector>
+#include <sstream>
+#include <iostream>
+#include <tuple>
+#include <algorithm>
+#include <regex>
+
+using namespace std;
+vector<string> before = { "C#","D#","F#","G#","A#" };
+vector<string> after = { "c","d","f","g","a" };
+ 
+vector<string> split(string& s,char delimiter=' ') {
+    stringstream ss(s);
+    vector<string> v;
+    string temp;
+    while (getline(ss, temp, delimiter))v.push_back(temp);
+    return v;
+}
+ 
+ 
+string Replace(string s) {
+    for (int i = 0; i < before.size(); i++)
+        s = regex_replace(s, regex(before[i]), after[i]);
+    return s;
+}
+int toTime(string s) {
+    int h = stoi(s.substr(0, 2));
+    int m = stoi(s.substr(3, 2));
+    return h * 60 + m;
+}
+string solution(string m, vector<string> musicinfos) {
+    string answer = "";
+    vector<tuple<int, int, string>>res;
+    m = Replace(m);
+ 
+    for (int i = 0; i < musicinfos.size(); i++) {
+        vector<string> v = split(musicinfos[i], ','); 
+        int time = toTime(v[1]) - toTime(v[0]);
+        if (time < m.size())continue; 
+        string s;
+        v[3] = Replace(v[3]);
+        for (int j = 0; j < time; j++)
+            s += v[3][j % v[3].size()];
+ 
+        for (int j = 0; j <= s.size() - m.size(); j++) {
+            string t = s.substr(j, m.size());
+            if (t == m) {
+                res.push_back({ -time,i,v[2] });
+                break;
+            }
+        }
+    }
+    if (res.empty())
+        return "(None)";
+    sort(res.begin(), res.end());
+    return get<2>(res[0]);
+}
