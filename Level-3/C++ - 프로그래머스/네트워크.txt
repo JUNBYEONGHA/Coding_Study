@@ -1,0 +1,41 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <iostream>
+
+using namespace std;
+
+bool visit[201];
+int N;
+
+int BFS(int n, vector<vector<int>> computers)
+{
+    queue<int> Q;
+    visit[n] = true;
+    Q.push(n);
+    while(!Q.empty())
+    {
+        n = Q.front();
+        Q.pop();
+        for(int i = 0 ; i < N ; i++)
+        {
+            if(!visit[i] && computers[n][i] == 1)
+            {
+                visit[i] = true;
+                Q.push(i);
+            }
+        }
+    }
+    return 1;
+}
+
+int solution(int n, vector<vector<int>> computers) {
+    int answer = 0;
+    N = n;
+    for(int i = 0; i < n; i++)
+    {
+        if(!visit[i])
+            answer += BFS(i,computers);
+    }
+    return answer;
+}
