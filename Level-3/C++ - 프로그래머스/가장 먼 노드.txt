@@ -1,0 +1,54 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <queue>
+using namespace std;
+#define MAX 20020
+int answer , level;
+bool visit[MAX];
+
+void BFS(int n, vector<vector<int>> & edge)
+{
+    level = 0;
+    queue<pair<int,int>> Q;
+    Q.push(make_pair(n,0));
+    visit[n] = true;
+    while(!Q.empty())
+    {
+        n = Q.front().first;
+        int l = Q.front().second;
+        Q.pop();
+        bool check = true;
+        for(int i = 0 ; i < edge[n].size() ; i++)
+        {
+            if(!visit[edge[n][i]])
+            {
+                visit[edge[n][i]] = true;
+                check = false;
+                Q.push(make_pair(edge[n][i],l+1));
+            }
+        }
+        if(check) 
+        {
+            if(level == l)
+                answer++;
+            else
+            {
+                answer = 1;
+                level = l;
+            }
+        }
+    }
+}
+
+int solution(int n, vector<vector<int>> edge) {
+    answer = 0;
+    vector<vector<int>> sort_edge(MAX);
+    for(int i = 0 ; i < edge.size() ; i++)
+    {
+        sort_edge[edge[i][0]].push_back(edge[i][1]);
+        sort_edge[edge[i][1]].push_back(edge[i][0]);
+    }
+    BFS(1,sort_edge);
+    return answer;
+}
