@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+#include <cmath>
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+int dp[13];
+int answer = 0, N;
+bool check(int n)
+{
+    for(int i = 0 ; i < n; i++)
+    {
+        if(dp[i] == dp[n] || abs(dp[n] - dp[i]) == n - i)
+            return false;
+    }
+    return true;
+}
+void nqueen(int x)
+{
+    if(x == N)
+    {
+        answer++;
+    }
+    else
+    {
+        for (int i = 0 ; i < N; i++)
+        {
+            dp[x] = i;
+            if (check(x))
+                nqueen(x + 1);
+        }
+    }
+}
+
+int solution(int n) {
+    N = n;
+    nqueen(0);
+    return answer;
+}
