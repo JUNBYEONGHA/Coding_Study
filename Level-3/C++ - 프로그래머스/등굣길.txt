@@ -1,0 +1,31 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+long dp[101][101];
+bool MAP[101][101];
+
+int solution(int m, int n, vector<vector<int>> puddles) {
+    for(auto a : puddles)
+    {
+        MAP[a[1]][a[0]] = true;
+    }
+    dp[1][1] = 1;
+    for(int i = 1 ; i <= n ; i++)
+    {
+        for(int j = 1 ; j <= m ; j++)
+        {
+            if(!MAP[i][j])
+            {
+                int a = 0,b = 0;
+                if(!MAP[i-1][j])
+                    a = dp[i-1][j];
+                if(!MAP[i][j-1])
+                    b = dp[i][j-1];
+                dp[i][j] += (a+b) % 1000000007;
+            }
+        }
+    }
+    return dp[n][m];
+}
