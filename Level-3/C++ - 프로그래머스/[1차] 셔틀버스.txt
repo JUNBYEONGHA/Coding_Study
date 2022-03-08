@@ -1,0 +1,73 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int change_time(string time)
+{
+    int minute = 0;
+    minute += (time[4] - '0') ;
+    minute += (time[3] - '0') * 10;
+    minute += (time[1] - '0') * 60;
+    minute += (time[0] - '0') * 600;
+    return minute;
+}
+string change_minute(int minute)
+{
+    string time = "";
+    time += (minute / 600) + '0';
+    minute %= 600;
+    time += (minute / 60) + '0';
+    minute %= 60;
+    time += ':';
+    time += (minute / 10) + '0';
+    minute %= 10;
+    time += (minute) + '0';
+    return time;
+}
+
+string solution(int n, int t, int m, vector<string> timetable) {
+    string answer = "";
+    vector<int> min_timetabel;
+    for(auto a : timetable)
+    {
+        min_timetabel.push_back(change_time(a));
+    }
+    sort(min_timetabel.begin(),min_timetabel.end());
+    int index = 0, answer_time = 0 , length = min_timetabel.size() , bustime = 540;
+    vector<int> last;
+    for(int i = 0 ; i < n; i++)
+    {
+        for(int j = 0 ; j < m ; j++)
+        {
+            if(index > length - 1)
+                break;
+            if(min_timetabel[index] <= bustime )
+            {
+                if(i == n - 1)
+                {
+                    last.push_back(min_timetabel[index]);
+                }
+                index++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if(i == n - 1 )
+        {
+            if(last.size() < m)
+            {
+                answer_time = bustime;
+            }
+            else
+            {
+                answer_time = last[last.size() - 1] - 1;
+            }
+        }
+        bustime += t;
+    }
+    return change_minute(answer_time);
+}
