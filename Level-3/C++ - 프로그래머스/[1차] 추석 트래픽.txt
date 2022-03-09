@@ -1,0 +1,32 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<string> lines) {
+    int answer = 0;
+    int tps = 0; 
+    vector<pair<double, double>> response; 
+
+    for(auto x : lines) {
+        string ss = x.substr(11,12);
+        double responseCompleteTime = (stod(ss.substr(0,2)) * 3600) + (stod(ss.substr(3,2)) * 60) + stod(ss.substr(6,2)) + (stod(ss.substr(9)) / 1000.0); 
+        string temp = x.substr(24);
+        double throughputTime = stod(temp.substr(0, temp.length()-1)); 
+        double responseStartTime = responseCompleteTime - throughputTime + 0.001;
+        response.push_back(make_pair(responseStartTime, responseCompleteTime));
+    }
+    for(int i = 0; i < response.size(); i++) {
+        double start = response[i].first;
+        double end = response[i].second;
+        tps = 1;
+        for(int j = i + 1; j < response.size(); j++) {
+            if(start+1 >= response[j].first || end+1 > response[j].first) {
+                    tps++;
+            }
+        }
+        answer = max(answer, tps);
+    }
+
+    return answer;
+}
