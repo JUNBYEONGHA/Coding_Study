@@ -1,0 +1,77 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Tree
+{
+    int index,x,y;
+    Tree * Left, * Right;
+};
+bool compare(Tree A,Tree B)
+{
+    if(A.y == B.y)
+    {
+        return A.x < B.x;
+    }
+    else
+    {
+        return A.y > B.y;
+    }
+}
+void Make_Tree(Tree * root , Tree * child)
+{
+    if (root -> x > child -> x)
+    {
+        if( root -> Left == NULL)
+        {
+            root -> Left = child;
+            return;
+        }
+        Make_Tree(root -> Left , child);
+    }
+    else
+    {
+        if( root -> Right == NULL)
+        {
+            root -> Right = child;
+            return;
+        }
+        Make_Tree(root -> Right , child);
+    }
+}
+void preOrder(Tree * root , vector<int> &preorder)
+{
+    if(root == NULL) return;
+    preorder.push_back(root -> index);
+    preOrder(root -> Left, preorder);
+    preOrder(root -> Right, preorder);
+}
+void postOrder(Tree * root , vector<int> &postorder)
+{
+    if(root == NULL) return;
+    postOrder(root -> Left, postorder);
+    postOrder(root -> Right, postorder);
+    postorder.push_back(root -> index);
+}
+vector<vector<int>> solution(vector<vector<int>> nodeinfo) {
+    vector<vector<int>> answer;
+    vector<Tree> BTree;
+    int index = 1;
+    for(auto a : nodeinfo)
+    {
+        BTree.push_back({index,a[0],a[1],NULL,NULL});
+        index++;
+    }
+    sort(BTree.begin(),BTree.end(),compare);
+    Tree * root = &BTree[0];
+    for (int i = 1; i < BTree.size(); i++)
+        Make_Tree(root,&BTree[i]);
+    vector<int> preorder,postorder;
+    preOrder(root,preorder);
+    postOrder(root,postorder);
+    answer.push_back(preorder);
+    answer.push_back(postorder);
+    return answer;
+}
