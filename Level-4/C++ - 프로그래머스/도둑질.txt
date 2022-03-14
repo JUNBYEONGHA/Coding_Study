@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<int> money) {
+    int answer = 0;
+    vector<int> start_dp(money.begin() , money.end() - 1) , 
+    end_dp(money.begin() + 1 , money.end());
+    for(int i = 2 ; i < start_dp.size(); i++)
+    {
+        start_dp[i - 1] = max(start_dp[i - 1] , start_dp[i - 2]);
+        start_dp[i] = max(start_dp[i - 1] , start_dp[i - 2] + money[i]);
+    }
+    for(auto a : start_dp) answer = max(answer,a);
+    for(int i = 2 ; i < end_dp.size(); i++)
+    {
+        end_dp[i - 1] = max(end_dp[i - 1] , end_dp[i - 2]);
+        end_dp[i] = max(end_dp[i - 1] , end_dp[i - 2] + money[i + 1]);
+    }
+    for(auto a : end_dp) answer = max(answer,a);
+    return answer;
+}
