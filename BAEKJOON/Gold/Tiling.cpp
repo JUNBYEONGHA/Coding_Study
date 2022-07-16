@@ -1,23 +1,18 @@
 #include<iostream>
-#include<queue>
+#include<string>
 #include<vector>
-#include<cstring>
-
+#include<algorithm>
 #define endl "\n"
 using namespace std;
 
-#define MAX 35
 #define MOD 1000000007
-
 int N;
-int DP[MAX];
+long long DP[1001];
 
-void Input()
+
+void Answer()
 {
 	cin >> N;
-}
-void Solution()
-{
 	if (N % 2 == 1)
 	{
 		cout << 0 << endl;
@@ -28,23 +23,20 @@ void Solution()
 	DP[2] = 3;
 	for (int i = 4; i <= N; i = i + 2)
 	{
-		DP[i] = DP[i - 2] * DP[2];
+		DP[i] = (DP[i - 2] * 3) % MOD;
 		for (int j = i - 4; j >= 0; j = j - 2)
 		{
-			DP[i] = (DP[i] + (DP[j] * 2));
+			DP[i] += (DP[j] * 2) % MOD;
+			DP[i] %= MOD;
 		}
 	}
 	cout << DP[N] << endl;
 }
 
-void Answer()
-{
-	Input();
-    Solution();
-}
 int main()
 {
-	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
 	Answer();
 	return 0;
 }

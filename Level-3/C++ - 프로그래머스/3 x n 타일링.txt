@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+#define DIV 1000000007
+long long DP[5001];
+
+int solution(int N) {
+    int answer = 0;
+    if (N % 2 == 1)
+	{
+		return 0;
+	}
+	DP[0] = 1;
+	DP[1] = 0;
+	DP[2] = 3;
+	for (int i = 4; i <= N; i = i + 2)
+	{
+		DP[i] = DP[i - 2] * DP[2] % DIV;
+		for (int j = i - 4; j >= 0; j = j - 2)
+		{
+			DP[i] = (DP[i] + (DP[j] * 2)  % DIV) % DIV;
+		}
+    }
+    answer = DP[N];
+    return answer;
+}
