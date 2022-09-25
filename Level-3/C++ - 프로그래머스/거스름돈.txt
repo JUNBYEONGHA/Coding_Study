@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+#define MOD 1000000007
+
+long long dp[100001];
+
+int solution(int n, vector<int> money) {
+    int answer = 0;
+    
+    dp[0]=1;
+    
+    for(int i=money[0];i<=n;i+=money[0])
+    {
+        dp[i]=1;
+    }
+    
+    for(int i=1;i<money.size();i++)
+    {
+        for(int j=0;j<=n;j++)
+        {
+            if(j>=money[i])
+                dp[j] += dp[j-money[i]] % MOD;
+        }
+    }
+    answer = dp[n];
+    return answer;
+}
