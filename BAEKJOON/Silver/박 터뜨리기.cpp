@@ -5,16 +5,16 @@ using namespace std;
 
 void Answer()
 {
-	int N, M, K = 0;
-	cin >> N >> M;
-	K = M * (M + 1) / 2;
-	if (N < K) cout << -1;
+	int N, SUM = 0, K;
+	cin >> N >> K;
+	SUM = K * (K + 1) / 2;
+	if (N < SUM) cout << -1;
 	else
 	{
-		N -= K;
-		N %= M;
-		if (N == 0) cout << M - 1;
-		else cout << M;
+		N -= SUM;
+		N %= K;
+		if (N == 0) cout << K - 1;
+		else cout << K;
 	}
 }
 
