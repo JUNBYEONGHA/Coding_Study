@@ -7,10 +7,7 @@ void Answer()
 {
 	int N, M, K = 0;
 	cin >> N >> M;
-	for (int i = 1; i <= M ; i++)
-	{
-		K += i;
-	}
+	K = M * (M + 1) / 2;
 	if (N < K) cout << -1;
 	else
 	{
