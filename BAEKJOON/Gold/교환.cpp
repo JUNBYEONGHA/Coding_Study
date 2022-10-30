@@ -37,7 +37,7 @@ string BFS(string start , int count)
 				{
 					// 0이 앞으로 오는 경우의 수 방지
 					if (a == 0 && start[b] == '0') continue;
-					// 자리를 바꾼후 set 에 넣어 준 뒤 다시 자리를 바꿉니다.
+					// 자리를 바꾼후 queue 에 넣어 준 뒤 다시 자리를 바꿉니다.
 					swap(start[a],start[b]);
 					q.push(start);
 					swap(start[a], start[b]);
