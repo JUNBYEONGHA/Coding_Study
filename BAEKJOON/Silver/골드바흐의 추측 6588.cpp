@@ -1,43 +1,52 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<queue>
-#include<tuple>
-#include<cmath>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <queue>
+#include <cmath>
+#include <cstring>
 
 #define endl "\n"
 using namespace std;
 
-bool prime_num_discriminator(int input) {
-	for (int i = 2; i <= sqrt(input); i++) {
-		if (input % i == 0)return false;
+bool arr[1000001];
+
+void che(int size)
+{
+	arr[0] = true;
+	arr[1] = true;
+
+	for (int i = 2; i * i < size; i++) {
+		if (arr[i] == true)
+			continue;
+		for (int j = i * i; j < size; j += i) {
+			arr[j] = true;
+		}
 	}
-	return true;
 }
 
 void Answer()
 {
-	int input = 1;
-	int a, b;
-	bool suc = false;
+	che(1000001);
+	int n;
+	bool hasAns = false;
+	while (cin >> n) {
+		if (n == 0) break;
 
-	while (input) {
-		cin >> input;
-		for (int i = 1; i < input / 2; i++) {
-			a = 2 * i + 1;
-			b = input - a;
-			if (prime_num_discriminator(a) and prime_num_discriminator(b)) {
-				cout << input << " = " << a << " + " << b << "\n";
-				suc = true;
+		for (int i = 3; i < n; i += 2) {
+			if (!arr[i] && !arr[n - i]) {
+				hasAns = true;
+				cout << n << " = " << i << " + " << n - i << endl;
 				break;
 			}
 		}
-		if (!suc) cout << "Goldbach's conjecture is wrong\n";
+		if (!hasAns) cout << "Goldbach's conjecture is wrong." << endl;
 	}
 }
+
 int main()
 {
-	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
 	Answer();
 	return 0;
 }
