@@ -1,9 +1,9 @@
 #include <iostream>
 
 #define endl "\n"
-using namespace std;	
+using namespace std;
 
-int gcd(int x, int y)
+long long gcd(long long x, long long y)
 {
 	if (y == 0) return x;
 	else return gcd(y, x % y);
@@ -11,12 +11,12 @@ int gcd(int x, int y)
 
 void Answer()
 {
-	int a, b, n;
+	long long a, b, n;
 	cin >> n;
 	while (n--)
 	{
 		cin >> a >> b;
-		int temp = gcd(a, b);
+		long long temp = gcd(a, b);
 		cout << (a / temp) * (b / temp) * temp << endl;
 	}
 }
