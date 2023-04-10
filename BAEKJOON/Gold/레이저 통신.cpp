@@ -1,66 +1,74 @@
 #include <iostream>
-#include <algorithm>
-#include <string>
 #include <vector>
+#include <string>
+#include <algorithm>
+#include <iomanip>
+#include <cmath>
+#include <map>
+#include <deque>
 #include <queue>
+#include <stack>
+#include <cstring>
 
 #define endl "\n"
+using LL = long long;
 using namespace std;
-int y_ar[4] = { 0,0,1,-1 };
-int x_ar[4] = { 1,-1,0,0 };
-char arr[100][100];
 
-vector <pair<int, int>> laser;
-int visited[100][100] = { 0, };
-int w, h;
-
-int val, temp;
-
-void bfs() {
-	queue <pair<pair<int, int>, pair<int, int>>> que; //좌표, 거울 갯수, 방향순으로 넣을거
-	que.push(make_pair(make_pair(laser[0].first, laser[0].second), make_pair(0, -1)));
-	while (!que.empty()) {
-		int y = que.front().first.first;
-		int x = que.front().first.second;
-		int mirror = que.front().second.first;
-		int dir = que.front().second.second;
-		que.pop();
-		int temp;
-		for (int i = 0; i < 4; i++) {
-			int ny = y + y_ar[i];
-			int nx = x + x_ar[i];
-			if (ny < 0 || ny >= h || nx < 0 || nx >= w || arr[ny][nx] == '*')
-				continue;
-			temp = mirror;
-			if (dir != i)
-				temp++;
-			if (visited[ny][nx] >= temp) {
-				visited[ny][nx] = temp;
-				que.push(make_pair(make_pair(ny, nx), make_pair(temp, i)));
-			}
-		}
-	}
-}
+int d[101][101];
+char laser[101][101];
+bool chk[101][101];
+int dx[] = { 1, -1, 0, 0 };
+int dy[] = { 0, 0, 1, -1 };
 
 void Answer()
 {
-	cin >> w >> h;
-	for (int i = 0; i < h; i++) {
-		cin >> arr[i];
-		for (int j = 0; j < w; j++) {
-			if (arr[i][j] == 'C')
-				arr[i][j] = '.', laser.push_back(make_pair(i, j));
-			visited[i][j] = 1000000000;
-		}
-	}
-	bfs();
-	cout << visited[laser[1].first][laser[1].second] - 1 << endl;
+    int n, m;
+    cin >> m >> n;
+    cin.ignore();
+    string s;
+    vector<pair<int, int>> c;
+    for (int i = 0; i < n; i++) {
+        getline(cin, s);
+        for (int j = 0; j < s.size(); j++) {
+            laser[i][j] = s[j];
+            if (laser[i][j] == 'C') {
+                c.push_back(make_pair(i, j));
+            }
+        }
+    }
+    int s1 = c[0].first;
+    int s2 = c[0].second;
+    queue<pair<int, int>> q;
+    q.push(make_pair(s1, s2));
+    d[s1][s2] = 0;
+    chk[s1][s2] = true;
+    while (!q.empty()) {
+        int x = q.front().first;
+        int y = q.front().second;
+        q.pop();
+        for (int k = 0; k < 4; k++) {
+            int nx = x + dx[k];
+            int ny = y + dy[k];
+            while (nx >= 0 && nx < n && ny >= 0 && ny < m) {
+                if (laser[nx][ny] == '*') break;
+                if (!chk[nx][ny]) {
+                    chk[nx][ny] = true;
+                    d[nx][ny] = d[x][y] + 1;
+                    q.push(make_pair(nx, ny));
+                }
+                nx += dx[k];
+                ny += dy[k];
+            }
+        }
+    }
+    cout << d[c[1].first][c[1].second] - 1 << "\n";
 }
+
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL); cout.tie(NULL);
-	Answer();
-	return 0;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    Answer();
+    return 0;
 }
