@@ -30,7 +30,7 @@ void BFS(int Rx, int Ry, int Bx, int By)
 {
 	queue<step> q;
 	q.push({ Rx,Ry,Bx,By,0 });
-	visit[Rx][Ry][Bx][By] = true;
+	visit[Rx][Ry][Rx][Ry] = true;
 	while (!q.empty())
 	{
 		int rx = q.front().Rx;
